@@ -43,6 +43,11 @@ public class TransactionsService {
             yearMap.get(extractedYear).getTransaction().add(all.get(i));
 
         }
+
+        for (int j = 0; j < transactionDTOList.size(); j++) {
+            transactionDTOList.get(j).generateSummary();
+        }
+
         System.out.println(transactionDTOList.get(0).getYear());
         return transactionDTOList;
     }

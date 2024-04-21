@@ -17,18 +17,16 @@ const TransactionContext = createContext<ITransactionPackage[]>([]);
   
   export const TransactionProvider = ({ children }: Props) => {
     const [transaction, setTransactions] = useState<ITransactionPackage[]>([]);
-  
+
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('http://localhost:8080');
-          setTransactions(response.data); 
-        } catch (error) {
-          console.error('Error fetching transactions:', error);
-        }
-      };
-   
-      fetchData();
+      try {
+        axios.get('http://localhost:8080').then((res)=>{
+          setTransactions(res.data); 
+          console.log(res.data)
+      });
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
     }, []);
   
     return (

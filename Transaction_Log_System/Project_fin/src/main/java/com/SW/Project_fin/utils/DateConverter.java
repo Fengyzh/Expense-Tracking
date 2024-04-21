@@ -18,4 +18,10 @@ public class DateConverter {
         return DateList[0];
     }
 
+    public int extractMonth(String date) {
+        int month = 0;
+        String[] DateList = date.split("-");
+        return Integer.parseInt(DateList[1]);
+    }
+
 }

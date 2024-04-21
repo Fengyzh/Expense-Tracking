@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "./comp/Navbar";
+import { TransactionProvider } from "./comp/TransactionContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <body className={`${inter.className}`}>
+      <TransactionProvider>
         <div className="flex h-full w-full">
           <Navbar/>
           {children}
         </div>
+        </TransactionProvider>
         </body>
     </html>
   );
