@@ -1,0 +1,5 @@
+1. mybatis-config is useless now because we have the "org.mybatis-spring-starter" dependency
+2. By using @Mapper at our Mapper interface, we can let Spring takes care of the Mappers so we dont even need the SQLSession thing anymore
+3. transcationMapper.xml is still important because it contains the SQL query and it points to the mapper interface
+4. Controller had setup to bring SQL information to the web page
+5. transactionMapperTest needs mybatis-config to work, because the sqlSession factory needs that to build a session

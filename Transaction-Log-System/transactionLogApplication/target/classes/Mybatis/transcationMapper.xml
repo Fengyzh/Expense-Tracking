@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.SW.transactionLogApplication.Mapper.TransactionMapper">
+    <select id="getAll" resultType="com.SW.transactionLogApplication.pojo.Transaction">
+        select * from Trans_log.Trans_log
+    </select>
+
+    <insert id="addTransaction" parameterType="com.SW.transactionLogApplication.pojo.Transaction">
+        INSERT INTO Trans_log.Trans_log (Date, Name, Amount, Purpose, Note) VALUES (#{Date}, #{Name}, #{Amount}, #{Purpose}, #{Note})
+    </insert>
+
+</mapper>
