@@ -17,3 +17,7 @@ export interface ILogs {
     store_name:IStore
  } 
  
+export interface ITransactionPackage {
+  year: string,
+  transaction: ILogs[]
+}

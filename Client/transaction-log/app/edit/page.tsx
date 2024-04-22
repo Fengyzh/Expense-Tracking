@@ -1,15 +1,13 @@
 "use client"
 
 import React, { useState } from 'react'
-import axios from 'axios';
 
-export default function AddPage() {
+export default function EditPage() {
 
   let currentDate = new Date().toJSON().slice(0, 10);
 
 
-  // TODO: Add the ability to change store information
-
+  // TODO, get the value from the "CurTransaction" in context
   const inputBlocks = [
     {labelText: "Date", inputType:"date", isReq:true, value:currentDate},
     {labelText: "Item Name", inputType:"text", isReq:true, value:""},
@@ -48,11 +46,6 @@ export default function AddPage() {
     if (!payload.date) {
       payload.date = currentDate
     }
-
-    console.log(payload)
-    axios.post("http://localhost:8080", payload).then((res)=> {
-      console.log(res)
-    })
   }
 
 

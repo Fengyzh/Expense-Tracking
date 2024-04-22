@@ -1,36 +1,41 @@
 "use client"
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { ILogs } from './Types';
+import { ILogs, ITransactionPackage } from './Types';
 
-interface ITransactionPackage {
-    year: string,
-    transaction: ILogs[]
- }
- 
+
+interface ITransactionContext {
+  transactions: ITransactionPackage[];
+  curTransaction: ILogs | undefined;
+  setCurTransaction: React.Dispatch<React.SetStateAction<ILogs | undefined>>;
+}
 
  interface Props {
     children: React.ReactNode
 }
 
-const TransactionContext = createContext<ITransactionPackage[]>([]);
+const TransactionContext = createContext<ITransactionContext | null>(null);
   
   export const TransactionProvider = ({ children }: Props) => {
-    const [transaction, setTransactions] = useState<ITransactionPackage[]>([]);
+    const [transactions, setTransactions] = useState<ITransactionPackage[]>([]);
+    const [curTransaction, setCurTransaction] = useState<ILogs>();
+
 
     useEffect(() => {
       try {
         axios.get('http://localhost:8080').then((res)=>{
           setTransactions(res.data); 
-          console.log(res.data)
+          //console.log(res.data)
       });
       } catch (error) {
         console.error('Error fetching transactions:', error);
       }
     }, []);
   
+
+
     return (
-      <TransactionContext.Provider value={transaction}>
+      <TransactionContext.Provider value={{transactions, curTransaction, setCurTransaction}}>
         {children}
       </TransactionContext.Provider>
     );
