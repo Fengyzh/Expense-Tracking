@@ -11,8 +11,9 @@ interface ITransactionContext {
 }
 
  interface Props {
-    children: React.ReactNode
+  children: React.ReactNode
 }
+
 
 const TransactionContext = createContext<ITransactionContext | null>(null);
   

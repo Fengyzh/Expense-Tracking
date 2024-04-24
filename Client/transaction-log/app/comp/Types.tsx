@@ -7,6 +7,7 @@ export interface IStore {
 
 
 export interface ILogs { 
+    id:number,
     name:string, 
     date:string, 
     category:string,
