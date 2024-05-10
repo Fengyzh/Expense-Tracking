@@ -16,7 +16,14 @@ export default function Log() {
     throw new Error('useTransaction must be used within a TransactionProvider');
   }
 
-  const { transactions } = context;
+  const { transactions, fetchData } = context;
+  console.log(transactions)
+  
+  useEffect(() => {
+    fetchData()
+  
+
+  }, [])
   
 
   return (

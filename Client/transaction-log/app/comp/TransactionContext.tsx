@@ -8,6 +8,8 @@ interface ITransactionContext {
   transactions: ITransactionPackage[];
   curTransaction: ILogs | undefined;
   setCurTransaction: React.Dispatch<React.SetStateAction<ILogs | undefined>>;
+  deleteTransaction: (id: number) => void;
+  fetchData: () => void;
 }
 
  interface Props {
@@ -22,7 +24,7 @@ const TransactionContext = createContext<ITransactionContext | null>(null);
     const [curTransaction, setCurTransaction] = useState<ILogs>();
 
 
-    useEffect(() => {
+    const fetchData = () => {
       try {
         axios.get('http://localhost:8080').then((res)=>{
           setTransactions(res.data); 
@@ -31,12 +33,31 @@ const TransactionContext = createContext<ITransactionContext | null>(null);
       } catch (error) {
         console.error('Error fetching transactions:', error);
       }
+    }
+
+    useEffect(() => {
+      fetchData()
     }, []);
   
 
+    const deleteTransaction = (id:number) => {
+      try {
+        axios.post('http://localhost:8080/delete', id, {    
+          headers: {
+          'Content-Type': 'application/json'
+      }}).then(()=>{
+          console.log('Delete complete')
+          fetchData()
+      });
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+
+    }
+
 
     return (
-      <TransactionContext.Provider value={{transactions, curTransaction, setCurTransaction}}>
+      <TransactionContext.Provider value={{transactions, curTransaction, setCurTransaction, deleteTransaction, fetchData}}>
         {children}
       </TransactionContext.Provider>
     );

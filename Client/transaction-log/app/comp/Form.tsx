@@ -31,13 +31,13 @@ const inputBlocks = [
     {labelText: "Category", inputType:"text", isReq:true, value:curTransaction?.category? curTransaction.category:""},
     {labelText: "Note", inputType:"text", isReq:false, value:curTransaction?.note? curTransaction.note:""},
     {labelText: "Purpose", inputType:"text", isReq:false, value:curTransaction?.purpose? curTransaction.purpose:""},
-    {labelText: "Store Name", inputType:"text", isReq:true, value:curTransaction?.store_name?.store_name? curTransaction.store_name.store_name:""},
+    {labelText: "Store Name", inputType:"text", isReq:true, value:curTransaction?.store_name?.storeName? curTransaction.store_name.storeName:""},
     {labelText: "Store Address", inputType:"text", isReq:true, value:curTransaction?.store_name?.address? curTransaction.store_name.address:""}
     ]
 
 
 
-  let payload = {date:inputBlocks[0].value, name: inputBlocks[1].value, price: inputBlocks[2].value, amount:inputBlocks[3].value, category:inputBlocks[4].value, note:inputBlocks[5].value, purpose:inputBlocks[6].value, store_name:{store_name:inputBlocks[7].value, address:inputBlocks[8].value}}  
+  let payload = {id:curTransaction?.id, date:inputBlocks[0].value, name: inputBlocks[1].value, price: inputBlocks[2].value, amount:inputBlocks[3].value, category:inputBlocks[4].value, note:inputBlocks[5].value, purpose:inputBlocks[6].value, store_name:{storeName:inputBlocks[7].value, address:inputBlocks[8].value}}  
 
 
   const handleAdd = (e:React.ChangeEvent<HTMLInputElement>, label:String) => {
@@ -65,7 +65,7 @@ const inputBlocks = [
         payload.purpose = e.currentTarget.value
         break;
       case ("Store Name"):
-        payload.store_name.store_name = e.currentTarget.value
+        payload.store_name.storeName = e.currentTarget.value
         break;
       case ("Store Address"):
         payload.store_name.address = e.currentTarget.value
@@ -75,14 +75,25 @@ const inputBlocks = [
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!payload.date) {
-      payload.date = currentDate
+
+    if (data.type == 'add') {
+      if (!payload.date) {
+        payload.date = currentDate
+      }
+
+      console.log(payload)
+      axios.post("http://localhost:8080", payload).then((res)=> {
+        console.log(res)
+      })
+    } else {
+      console.log(payload.id)
+      axios.post("http://localhost:8080/update", payload).then((res)=> {
+        console.log(res)
+      })
     }
 
-    console.log(payload)
-    axios.post("http://localhost:8080", payload).then((res)=> {
-      console.log(res)
-    })
+
+
   }
 
   const handleClearForm = () => {
@@ -111,7 +122,7 @@ const inputBlocks = [
         )
         })}
 
-      <button type="submit" className='mt-10 bg-green-400 border w-32 h-10 rounded-lg text-white'> Add Entry </button>
+      <button type="submit" className='mt-10 bg-green-400 border w-32 h-10 rounded-lg text-white'> {data.type=='add'?"Add Entry" : "Update Entry"} </button>
       </form>
 
 

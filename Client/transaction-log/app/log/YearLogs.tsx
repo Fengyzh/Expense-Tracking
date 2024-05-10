@@ -1,6 +1,10 @@
+'use client'
+
 import React from 'react'
 import { ILogs } from '../comp/Types'
 import { useTransaction } from '../comp/TransactionContext';
+import { useRouter } from 'next/navigation'
+
  
  interface YearLogsProps {
     data: ILogs[];
@@ -9,12 +13,13 @@ import { useTransaction } from '../comp/TransactionContext';
 export default function YearLogs({data}:YearLogsProps) {
 
   const context = useTransaction();
+  const router = useRouter()
 
   if (!context) {
     throw new Error('useTransaction must be used within a TransactionProvider');
   }
 
-  const { curTransaction, setCurTransaction } = context;
+  const { curTransaction, setCurTransaction, deleteTransaction } = context;
 
 
     const maxHeight = 'max-h-8'
@@ -30,10 +35,14 @@ export default function YearLogs({data}:YearLogsProps) {
       }
 
   const handleEdit = (i:number) => {
-
     setCurTransaction(data[i])
+    router.push('/edit')
   }
 
+
+  const handleDelete = (id:number) => {
+    deleteTransaction(id)
+  }
 
 
   return (
@@ -66,11 +75,11 @@ export default function YearLogs({data}:YearLogsProps) {
                         <h1>Note: {entry.note}</h1>
                       </div>
                       <div className='w-full'>
-                        <h1>Store: {entry.store_name?.store_name}</h1>
+                        <h1>Store: {entry.store_name?.storeName}</h1>
                       </div>
                   </div>
                   <button className='border-2 leading-7 rounded-lg mb-2 px-4 group-hover:opacity-100 opacity-0 transition-all duration-300 bg-green-400 text-white border-white' onClick={()=>handleEdit(key)}>Edit</button>
-                  <button className='border-2 leading-7 rounded-lg ml-4 mb-2 px-4 bg-red-400 group-hover:opacity-100 opacity-0 transition-all duration-300 border-white'>Delete</button>
+                  <button className='border-2 leading-7 rounded-lg ml-4 mb-2 px-4 bg-red-400 group-hover:opacity-100 opacity-0 transition-all duration-300 border-white' onClick={()=>handleDelete(entry.id)}>Delete</button>
 
                 </div>)
         })}

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StoreRepo extends JpaRepository<Stores, Integer> {
 
-
+    Stores findByStoreName(String storeName);
 }

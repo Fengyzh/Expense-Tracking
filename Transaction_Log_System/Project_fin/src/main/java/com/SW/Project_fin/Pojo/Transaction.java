@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name="Items")
+
 public class Transaction {
 
     @Id

@@ -1,7 +1,7 @@
 export interface IStore {
     store_id:number,
     address:string,
-    store_name:string
+    storeName:string
   }
 
 
@@ -17,8 +17,16 @@ export interface ILogs {
     price:number,
     store_name:IStore
  } 
+
+
+export interface ISummary {
+  yearSpending: number[];
+  avg: number[];
+  monthSpending: number[];
+}
  
 export interface ITransactionPackage {
   year: string,
   transaction: ILogs[]
+  summary:ISummary
 }

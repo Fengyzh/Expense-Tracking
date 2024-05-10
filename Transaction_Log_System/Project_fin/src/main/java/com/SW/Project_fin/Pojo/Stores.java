@@ -16,5 +16,7 @@ public class Stores {
     @Column(name = "storeID")
     Integer store_id;
     String address;
-    String store_name;
+
+    @Column(name = "store_name")
+    String storeName;
 }
