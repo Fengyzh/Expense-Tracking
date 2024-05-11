@@ -55,7 +55,7 @@ public class TransactionsService {
     }
 
 
-    public OllamaApi.ChatResponse promptLLMQuery() {
+    public OllamaApi.ChatResponse promptLLMQuery(String prompt) {
         String MODEL = "deepseek-coder:6.7b-instruct";
         var ollamaApi = new OllamaApi();
 
@@ -72,7 +72,8 @@ public class TransactionsService {
                                 .withContent("SELECT count(*) FROM stores")
                                 .build(),
                         OllamaApi.Message.builder(OllamaApi.Message.Role.USER)
-                                .withContent("Find me all the items were bought in 'Super Mart'")
+                                //.withContent("Find me all the items were bought in 'Super Mart'")
+                                .withContent(prompt)
                                 .build()
                         ))
                 .withOptions(OllamaOptions.create().withTemperature(0.1f))

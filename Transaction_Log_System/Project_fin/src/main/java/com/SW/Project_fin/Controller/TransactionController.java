@@ -104,17 +104,18 @@ public class TransactionController {
         return new ResponseEntity<>("Entry updated successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @ResponseBody
-    public List<Object> searchTransaction() {
-        String res = transactionsService.promptLLMQuery().message().content();
+    public List<Object> searchTransaction(@RequestBody String prompt) {
+
+        String res = transactionsService.promptLLMQuery(prompt).message().content();
         ResponseTrim rt = new ResponseTrim();
         String msg = rt.extractSQL(res);
         Query query = entityManager.createNativeQuery(msg);
         List<Object> result = query.getResultList();
 
-
         return result;
+
     }
 
 

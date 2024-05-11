@@ -1,15 +1,16 @@
 "use client"
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { useTransaction } from './comp/TransactionContext';
-
+import { ILogs } from './comp/Types';
 
 
 
 
 export default function Home() {
+
 
   const context = useTransaction();
 
@@ -19,9 +20,12 @@ export default function Home() {
 
   const { transactions, fetchData } = context;
 
+  const [tr, setTR] = useState<ILogs[] | []>([]);
+
   let data: any;
   if (transactions) {
-    console.log(1111, transactions[0]?.summary.monthSpending)
+    //console.log(1111, transactions[0]?.summary.monthSpending)
+    //console.log(1111, transactions)
 
     ChartJS.register(ArcElement, Tooltip, Legend);
      data = {
@@ -52,6 +56,23 @@ export default function Home() {
     };
 }
 
+
+
+useEffect(() => {
+  if (transactions) {
+    let sortedTransactions = transactions[0]?.transaction.sort((a, b) => b.price - a.price);
+    if (sortedTransactions?.length > 5) {
+      sortedTransactions = sortedTransactions.slice(0, 5);
+    }
+    console.log(2222, sortedTransactions)
+
+    setTR(sortedTransactions)
+  }
+}, [transactions])
+
+
+
+
   return (
     <main className="flex min-h-screen w-full">
       <div className='flex w-full h-full mt-5'>
@@ -60,9 +81,11 @@ export default function Home() {
         </div>
         <div className='border-4 w-full h-1/2 mx-8'>
             <h1 className='font-black text-4xl my-4'>Top Items</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
-            <h1>Hello</h1>
+
+            {tr? tr.map((i, key) => {
+              return <h1>{tr[key]?.name}</h1>
+            }) : "mo"}
+
         </div>
       </div>
     </main>
