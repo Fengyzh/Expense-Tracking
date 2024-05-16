@@ -8,7 +8,9 @@ public enum CategoryEnums {
     Grocery,
     Activity,
     Subscription,
-    Transportation
+    Transportation,
+    Other,
+    Electronics
 
 
 
